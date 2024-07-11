@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import Modal from "../../components/CustomModal";
 import FormComponent from "../../components/FormComponent";
 import ArrowBack from "../../components/ArrowBackComponent";
@@ -13,6 +14,8 @@ function SignUp() {
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const history = useHistory();
 
   const fields = [
     { name: "fullName", label: "Full Name", type: "text" },
@@ -37,6 +40,7 @@ function SignUp() {
         }
       );
       setMessage(response.data.message);
+      setUserId(response.data.data.tenant.id);
       setShowModal(true);
       setError(null);
     } catch (err) {
@@ -48,6 +52,26 @@ function SignUp() {
       }
     }
   };
+
+  const sendVerificationEmail = async (e) => {
+    e.preventDefault()
+    if (!userId){
+      setError("User ID not found")
+      return
+    }
+    try {
+      const response = await axios.post(`https://myhome-ng-backend.onrender.com/api/v1/${userId}/send-verification-email`)
+      setMessage(response.data.message)
+      history.push("/user/verify-email");
+    } catch(err){
+      if (err.response) {
+        const apiError = err.response.data.message;
+        setError(apiError);
+      } else {
+        setError("An unexpected error occurred");
+      }
+    }
+  }
 
   return (
     <div className="SignUp">
@@ -74,7 +98,7 @@ function SignUp() {
             <p>Verify Your Email</p>
           </div>
           <div className="buttons">
-            <a className="link" href="/user/verify-email">
+            <a className="link" href="/user/verify-email" onClick={sendVerificationEmail}>
               Verify
             </a>
             <a className="link" href="/user/account-success">

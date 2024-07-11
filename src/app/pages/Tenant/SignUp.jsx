@@ -41,6 +41,8 @@ function SignUp() {
       );
       setMessage(response.data.message);
       setUserId(response.data.data.tenant.id);
+      localStorage.setItem("userId", response.data.data.tenant.id);
+      localStorage.setItem("userEmail", response.data.data.tenant.email);
       setShowModal(true);
       setError(null);
     } catch (err) {

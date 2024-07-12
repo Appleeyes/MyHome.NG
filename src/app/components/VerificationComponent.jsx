@@ -16,11 +16,12 @@ function VerificationComponent({ verifying, destination, contact, action, arrowB
                 <h3>Verify {verifying}</h3>
                 <p>Enter the 4-digit Code we sent to your {destination} at <span>{contact}</span></p>
             </div>
-            <form action={action}>
+            <form onSubmit={(e => {e.preventDefault(); action(inputStates.map((state) => state.digit).join(""));})}>
                 <div className="inputs">
                     {inputStates.map((state, ii) => {
                         return (
                             <input
+                                key={ii}
                                 type="number"
                                 value={state.digit}
                                 className={inputClass}

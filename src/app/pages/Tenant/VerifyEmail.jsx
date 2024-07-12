@@ -8,7 +8,6 @@ function VerifyEmail() {
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
     const [userEmail, setUserEmail] = useState("");
-    const [verificationCode, setVerificationCode] = useState("");
     const history = useHistory();
 
     useEffect(() => {

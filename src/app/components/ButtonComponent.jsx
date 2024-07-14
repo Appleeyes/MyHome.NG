@@ -1,12 +1,21 @@
-import '../assets/css/Button.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "../assets/css/Button.css";
 
-function Button({children, className, link})
- {
+function Button({ children, className, onClick, link }) {
+  if (link) {
     return (
-        <a href={link} className={`custom-link ${className}`}>
-            <button className={className}>{children}</button>
-        </a>
+      <Link to={link} className={`custom-link ${className}`}>
+        <button className={className}>{children}</button>
+      </Link>
     );
-};
+  } else {
+    return (
+      <button className={`custom-button ${className}`} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+}
 
 export default Button;

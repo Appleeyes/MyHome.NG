@@ -1,16 +1,13 @@
 import './App.css';
-import SignUp from './app/pages/Tenant/SignUp';
-import Login from './app/pages/Tenant/Login';
-import EmailVerify from './app/pages/Tenant/VerifyEmail';
-import AccountSuccess from './app/pages/Tenant/AccountSuccess';
+import SignUp from './app/pages/SignUp';
+import Login from './app/pages/Login';
+import EmailVerify from './app/pages/VerifyEmail';
+import AccountSuccess from './app/pages/AccountSuccess';
 import TenantManagement from './app/pages/Tenant/Management';
-import LandlordSignUp from './app/pages/Landlord/SignUp';
-import LandlordLogin from './app/pages/Landlord/Login';
-import LandlordAccountSuccess from './app/pages/Landlord/AccountSuccess';
 import Performance from './app/pages/Landlord/Performance';
 import Onboarding from './app/pages/Onboarding';
 import SignupRole from './app/pages/SignupRole';
-import Access from './app/pages/Access';
+import Access from './app/pages/Tenant/Access';
 import TermsAndCondition from './app/pages/TermsAndCondition';
 import PrivacyPolicy from './app/pages/PrivacyPolicy';
 import Filter from './app/pages/FilterPage';
@@ -36,7 +33,6 @@ import Recommendation from './app/pages/Recommendation';
 import Favourite from './app/pages/Favourite';
 import Notification from './app/pages/Notification';
 import ProductOverview from './app/pages/ProductOverview';
-import LandlordEmailVerify from './app/pages/Landlord/VerifyEmail';
 import ProductManagement from './app/pages/Product/Management';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -45,10 +41,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/user/signup" exact component={SignUp} />
-        <Route path="/user/login" component={Login} />
+        <Route path="/signup" exact component={SignUp} />
+        <Route path="/login" component={Login} />
         <Route path="/signup-role" component={SignupRole} />
-        <Route path="/access" component={Access} />
+        <Route path="/tenant/access" component={Access} />
         <Route path="/notification" component={Notification} />
         <Route path="/settings" component={Settings} />
         <Route path="/search" component={Search} />
@@ -58,18 +54,14 @@ function App() {
         <Route path="/user/management" component={TenantManagement} />
         <Route path="/user/profile" component={UserProfile} />
         <Route path="/user/home" component={UserHome} />
-        <Route path="/user/verify-email" component={EmailVerify} />
-        <Route path="/user/account-success" component={AccountSuccess} />
+        <Route path="/verify-email" component={EmailVerify} />
+        <Route path="/account-success" component={AccountSuccess} />
         <Route path="/user/loan" component={Loan} />
         <Route path="/loan/apply" component={LoanApplication} />
         <Route path="/loan/process" component={LoanProcess} />
-        <Route path="/landlord/signup" exact component={LandlordSignUp} />
-        <Route path="/landlord/login" component={LandlordLogin} />
         <Route path="/landlord/dashboard" component={LandlordProfile} />
         <Route path="/landlord/home" component={LandlordHome} />
         <Route path="/landlord/performance" component={Performance} />
-        <Route path="/landlord/verify-email" component={LandlordEmailVerify} />
-        <Route path="/landlord/account-success" component={LandlordAccountSuccess} />
         <Route path="/landlord/access/get-started" component={PremiumListing} />
         <Route path="/landlord/access" component={Premium} />
         <Route path="/payment/generate" component={ReceiptGeneration} />

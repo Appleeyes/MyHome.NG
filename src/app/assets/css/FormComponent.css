@@ -80,17 +80,3 @@
   color: #0165FC;
   text-decoration: underline;
 }
-
-.error {
-  color: red;
-  background-color: rgb(254, 208, 208);
-  padding: 10px;
-  margin: 10px 0;
-}
-
-.message{
-  color: green;
-  background-color: rgb(195, 232, 195);
-  padding: 10px;
-  margin: 10px 0;
-}

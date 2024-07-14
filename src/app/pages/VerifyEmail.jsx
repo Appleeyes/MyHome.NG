@@ -1,4 +1,4 @@
-import VerificationComponent from '../../components/VerificationComponent';
+import VerificationComponent from '../components/VerificationComponent';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";

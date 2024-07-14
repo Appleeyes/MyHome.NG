@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import FormComponent from "../../components/FormComponent";
-import ArrowBack from "../../components/ArrowBackComponent";
-import "../../assets/css/Login.css";
-import GoogleAuthButton from "../../components/GoogleAuthComponent";
-import FacebookAuthButton from "../../components/FacebookAuthComponent";
+import FormComponent from "../components/FormComponent";
+import ArrowBack from "../components/ArrowBackComponent";
+import "../assets/css/Login.css";
+import GoogleAuthButton from "../components/GoogleAuthComponent";
+import FacebookAuthButton from "../components/FacebookAuthComponent";
 
 function Login() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
+  const [role, setRole] = useState(null)
   const history = useHistory();
 
   const fields = [
@@ -20,7 +21,7 @@ function Login() {
   const handleLogin = async (formData) => {
     const { email, password} = formData
     try{
-      const response = await axios.post("https://myhome-ng-backend.onrender.com/api/v1/tenant/login", {
+      const response = await axios.post("https://myhome-ng-backend.onrender.com/api/v1/login", {
         email,
         password
       })
@@ -28,14 +29,21 @@ function Login() {
       setError(null)
 
       const token = response.data.data.token;
+      const role = response.data.data.user.role;
       localStorage.setItem("token", token);
-      history.push("/user/home");
+      localStorage.setItem('userRole', role)
+
+      if(role === 'landlord'){
+        history.push("/landlord/home");
+      }else if(role === 'tenant'){
+        history.push("/user/home");
+      }
     }catch(err){
       if (err.response) {
         const apiError = err.response.data.data.errors;
         setError(apiError);
       } else {
-        setError("An unexpexted error occured");
+        setError("An unexpected error occured");
       }
     }
   }
@@ -54,7 +62,7 @@ function Login() {
         forgotPasswordLink="/login"
         forgotPasswordText="Forget Password"
         additionalTagText="Don’t have an account? "
-        additionalTagLink="/user/signup"
+        additionalTagLink="/signup"
         additionalTagLinkText="Create Account"
         onSubmit={handleLogin}
       />

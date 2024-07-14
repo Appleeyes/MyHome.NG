@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Modal from "../../components/CustomModal";
-import FormComponent from "../../components/FormComponent";
-import ArrowBack from "../../components/ArrowBackComponent";
-import CheckIcon from "../../assets/images/check-icon.svg";
-import "../../assets/css/SignUp.css";
-import GoogleAuthButton from "../../components/GoogleAuthComponent";
-import FacebookAuthButton from "../../components/FacebookAuthComponent";
-import TermsAndConditions from "../../components/TermsAndConditionsComponent";
+import Modal from "../components/CustomModal";
+import FormComponent from "../components/FormComponent";
+import ArrowBack from "../components/ArrowBackComponent";
+import CheckIcon from "../assets/images/check-icon.svg";
+import "../assets/css/SignUp.css";
+import GoogleAuthButton from "../components/GoogleAuthComponent";
+import FacebookAuthButton from "../components/FacebookAuthComponent";
+import TermsAndConditions from "../components/TermsAndConditionsComponent";
 
 function SignUp() {
   const [showModal, setShowModal] = useState(false);
@@ -25,24 +25,35 @@ function SignUp() {
     { name: "confirmPassword", label: "Confirm Password", type: "password" },
   ];
 
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId')
+    
+    if(storedUserId){
+      setUserId(storedUserId)
+    }else{
+      setError('User ID not found')
+    }
+  }, [])
+
   const handleSignUp = async (formData) => {
     const { fullName, phoneNumber, email, password, confirmPassword } =
       formData;
     try {
       const response = await axios.post(
-        "https://myhome-ng-backend.onrender.com/api/v1/tenant/register",
+        "https://myhome-ng-backend.onrender.com/api/v1/register",
         {
           name: fullName,
           email,
           phone_number: phoneNumber,
           password,
           password_confirmation: confirmPassword,
+          user_id: userId,
         }
       );
       setMessage(response.data.message);
-      setUserId(response.data.data.tenant.id);
-      localStorage.setItem("userId", response.data.data.tenant.id);
-      localStorage.setItem("userEmail", response.data.data.tenant.email);
+      setUserId(response.data.data.user.id);
+      localStorage.setItem("userId", response.data.data.user.id);
+      localStorage.setItem("userEmail", response.data.data.user.email);
       setShowModal(true);
       setError(null);
     } catch (err) {
@@ -64,7 +75,7 @@ function SignUp() {
     try {
       const response = await axios.post(`https://myhome-ng-backend.onrender.com/api/v1/${userId}/send-verification-email`)
       setMessage(response.data.message)
-      history.push("/user/verify-email");
+      history.push("/verify-email");
     } catch(err){
       if (err.response) {
         const apiError = err.response.data.message;
@@ -88,7 +99,7 @@ function SignUp() {
         submitButtonText="Create Account"
         onSubmit={handleSignUp}
         additionalTagText="Already have an Account? "
-        additionalTagLink="/landlord/login"
+        additionalTagLink="/login"
         additionalTagLinkText="Log In"
       />
 
@@ -100,10 +111,10 @@ function SignUp() {
             <p>Verify Your Email</p>
           </div>
           <div className="buttons">
-            <a className="link" href="/user/verify-email" onClick={sendVerificationEmail}>
+            <a className="link" href="/verify-email" onClick={sendVerificationEmail}>
               Verify
             </a>
-            <a className="link" href="/user/account-success">
+            <a className="link" href="/account-success">
               Skip
             </a>
           </div>

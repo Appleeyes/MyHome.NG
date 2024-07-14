@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Modal from "../../components/CustomModal";
@@ -25,24 +25,35 @@ function SignUp() {
     { name: "confirmPassword", label: "Confirm Password", type: "password" },
   ];
 
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId')
+    
+    if(storedUserId){
+      setUserId(storedUserId)
+    }else{
+      setError('User ID not found')
+    }
+  }, [])
+
   const handleSignUp = async (formData) => {
     const { fullName, phoneNumber, email, password, confirmPassword } =
       formData;
     try {
       const response = await axios.post(
-        "https://myhome-ng-backend.onrender.com/api/v1/tenant/register",
+        "https://myhome-ng-backend.onrender.com/api/v1/register",
         {
           name: fullName,
           email,
           phone_number: phoneNumber,
           password,
           password_confirmation: confirmPassword,
+          user_id: userId,
         }
       );
       setMessage(response.data.message);
-      setUserId(response.data.data.tenant.id);
-      localStorage.setItem("userId", response.data.data.tenant.id);
-      localStorage.setItem("userEmail", response.data.data.tenant.email);
+      setUserId(response.data.data.user.id);
+      localStorage.setItem("userId", response.data.data.user.id);
+      localStorage.setItem("userEmail", response.data.data.user.email);
       setShowModal(true);
       setError(null);
     } catch (err) {

@@ -20,7 +20,7 @@ function Login() {
   const handleLogin = async (formData) => {
     const { email, password} = formData
     try{
-      const response = await axios.post("https://myhome-ng-backend.onrender.com/api/v1/tenant/login", {
+      const response = await axios.post("https://myhome-ng-backend.onrender.com/api/v1/login", {
         email,
         password
       })

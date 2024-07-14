@@ -33,7 +33,7 @@ function Premium() {
                 </div>
             </div>
             <div className='bottom'>
-                <h3>Get connected with your prefect tenant</h3>
+                <h3>Get connected with your perfect tenant</h3>
                 <h4>Use our Premium Listing tool to connect with potential tenant.</h4>
                 <ul>
                     <li>
@@ -49,7 +49,7 @@ function Premium() {
                         <p>Premium Positioning</p>
                     </li>
                 </ul>
-                <Button link="/landlord/access/get-started">List on Premium Listing</Button>
+                <Button link="/signup">Continue to signup</Button>
             </div>
             <Footer currentRoute={window.location.pathname} />
         </div>

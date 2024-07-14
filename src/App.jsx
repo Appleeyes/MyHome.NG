@@ -45,10 +45,10 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/user/signup" exact component={SignUp} />
+        <Route path="/signup" exact component={SignUp} />
         <Route path="/user/login" component={Login} />
         <Route path="/signup-role" component={SignupRole} />
-        <Route path="/access" component={Access} />
+        <Route path="/tenant/access" component={Access} />
         <Route path="/notification" component={Notification} />
         <Route path="/settings" component={Settings} />
         <Route path="/search" component={Search} />

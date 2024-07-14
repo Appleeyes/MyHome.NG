@@ -99,7 +99,7 @@ function SignUp() {
         submitButtonText="Create Account"
         onSubmit={handleSignUp}
         additionalTagText="Already have an Account? "
-        additionalTagLink="/landlord/login"
+        additionalTagLink="/login"
         additionalTagLinkText="Log In"
       />
 

@@ -10,6 +10,7 @@ import FacebookAuthButton from "../components/FacebookAuthComponent";
 function Login() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
+  const [role, setRole] = useState(null)
   const history = useHistory();
 
   const fields = [
@@ -28,14 +29,21 @@ function Login() {
       setError(null)
 
       const token = response.data.data.token;
+      const role = response.data.data.user.role;
       localStorage.setItem("token", token);
-      history.push("/user/home");
+      localStorage.setItem('userRole', role)
+
+      if(role === 'landlord'){
+        history.push("/landlord/home");
+      }else if(role === 'tenant'){
+        history.push("/user/home");
+      }
     }catch(err){
       if (err.response) {
         const apiError = err.response.data.data.errors;
         setError(apiError);
       } else {
-        setError("An unexpexted error occured");
+        setError("An unexpected error occured");
       }
     }
   }
@@ -54,7 +62,7 @@ function Login() {
         forgotPasswordLink="/login"
         forgotPasswordText="Forget Password"
         additionalTagText="Don’t have an account? "
-        additionalTagLink="/user/signup"
+        additionalTagLink="/signup"
         additionalTagLinkText="Create Account"
         onSubmit={handleLogin}
       />

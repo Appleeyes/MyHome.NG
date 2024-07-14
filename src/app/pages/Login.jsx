@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import FormComponent from "../../components/FormComponent";
-import ArrowBack from "../../components/ArrowBackComponent";
-import "../../assets/css/Login.css";
-import GoogleAuthButton from "../../components/GoogleAuthComponent";
-import FacebookAuthButton from "../../components/FacebookAuthComponent";
+import FormComponent from "../components/FormComponent";
+import ArrowBack from "../components/ArrowBackComponent";
+import "../assets/css/Login.css";
+import GoogleAuthButton from "../components/GoogleAuthComponent";
+import FacebookAuthButton from "../components/FacebookAuthComponent";
 
 function Login() {
   const [message, setMessage] = useState("");

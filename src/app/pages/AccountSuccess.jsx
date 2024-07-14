@@ -1,10 +1,10 @@
-import AccountSuccessComponent from "../../components/AccountSuccessComponent";
+import AccountSuccessComponent from "../components/AccountSuccessComponent";
 
 function AccountSuccess() {
     return (
         <div>
             <AccountSuccessComponent
-                link="/user/login"
+                link="/login"
             />
         </div>
     )

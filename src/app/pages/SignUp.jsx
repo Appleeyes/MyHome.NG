@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Modal from "../../components/CustomModal";
-import FormComponent from "../../components/FormComponent";
-import ArrowBack from "../../components/ArrowBackComponent";
-import CheckIcon from "../../assets/images/check-icon.svg";
-import "../../assets/css/SignUp.css";
-import GoogleAuthButton from "../../components/GoogleAuthComponent";
-import FacebookAuthButton from "../../components/FacebookAuthComponent";
-import TermsAndConditions from "../../components/TermsAndConditionsComponent";
+import Modal from "../components/CustomModal";
+import FormComponent from "../components/FormComponent";
+import ArrowBack from "../components/ArrowBackComponent";
+import CheckIcon from "../assets/images/check-icon.svg";
+import "../assets/css/SignUp.css";
+import GoogleAuthButton from "../components/GoogleAuthComponent";
+import FacebookAuthButton from "../components/FacebookAuthComponent";
+import TermsAndConditions from "../components/TermsAndConditionsComponent";
 
 function SignUp() {
   const [showModal, setShowModal] = useState(false);
@@ -75,7 +75,7 @@ function SignUp() {
     try {
       const response = await axios.post(`https://myhome-ng-backend.onrender.com/api/v1/${userId}/send-verification-email`)
       setMessage(response.data.message)
-      history.push("/user/verify-email");
+      history.push("/verify-email");
     } catch(err){
       if (err.response) {
         const apiError = err.response.data.message;
@@ -111,10 +111,10 @@ function SignUp() {
             <p>Verify Your Email</p>
           </div>
           <div className="buttons">
-            <a className="link" href="/user/verify-email" onClick={sendVerificationEmail}>
+            <a className="link" href="/verify-email" onClick={sendVerificationEmail}>
               Verify
             </a>
-            <a className="link" href="/user/account-success">
+            <a className="link" href="/account-success">
               Skip
             </a>
           </div>

@@ -10,7 +10,6 @@ import FacebookAuthButton from "../components/FacebookAuthComponent";
 function Login() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
-  const [role, setRole] = useState(null)
   const history = useHistory();
 
   const fields = [

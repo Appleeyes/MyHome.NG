@@ -42,7 +42,29 @@ function VerifyEmail() {
           }
         );
         setMessage(response.data.message);
-        history.push("/user/account-success");
+        history.push("/account-success");
+      } catch (err) {
+        if (err.response) {
+          const apiError = err.response.data.message;
+          setError(apiError);
+        } else {
+          setError("An unexpected error occurred");
+        }
+      }
+    };
+
+    const resendVerificationEmail = async (e) => {
+      e.preventDefault();
+      if (!userId) {
+        setError("User ID not found");
+        return;
+      }
+      try {
+        const response = await axios.post(
+          `https://myhome-ng-backend.onrender.com/api/v1/${userId}/send-verification-email`
+        );
+        setMessage(response.data.message);
+        history.push("/verify-email");
       } catch (err) {
         if (err.response) {
           const apiError = err.response.data.message;
@@ -62,7 +84,7 @@ function VerifyEmail() {
           destination="email"
           contact={userEmail}
           action={(verificationCode) => verifyEmail(verificationCode)}
-          link="/user/verify-email"
+          resendAction={resendVerificationEmail}
         />
       </div>
     );

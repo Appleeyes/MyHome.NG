@@ -13,12 +13,12 @@ axiosRetry(axios, {
   retryDelay: (retryCount) => retryCount * 1000,
 });
 
-function Recommendation() {
-  const [recommendedProducts, setRecommendedProducts] = useState([]);
+function Popular() {
+  const [popularProducts, setPopularProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
-  const getRecommendedProduct = async () => {
+  const getPopularProduct = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -35,20 +35,20 @@ function Recommendation() {
           },
         }
       );
-      setRecommendedProducts(response.data.data);
+      setPopularProducts(response.data.data);
     } catch (err) {
       if (err.response) {
         console.error(err.response.data.message);
       } else {
-        console.error("An unexpected error occurred");
+        console.error("An unexpected error occured");
       }
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getRecommendedProduct();
+    getPopularProduct();
   }, []);
 
   const formatPrice = (price) => {
@@ -56,16 +56,14 @@ function Recommendation() {
       style: "currency",
       currency: "NGN",
       minimumFractionDigits: 0,
-    })
-      .format(price)
-      .replace("NGN", "#");
+    }).format(price);
   };
 
   return (
     <div className="product-home">
       <ProductComponent
-        PageTitle="Recommendations"
-        PageResult="Showing houses that fit your budget"
+        PageTitle="Popular"
+        PageResult="Showing houses that are popular"
       />
 
       <div className="products-container">
@@ -77,19 +75,19 @@ function Recommendation() {
               size={50}
             />
           </div>
-        ) : recommendedProducts.length > 0 ? (
-          recommendedProducts.map((product) => (
+        ) : popularProducts.length > 0 ? (
+          popularProducts.map((product) => (
             <ProductCard
               key={product.id}
               ProductImage={product.image_path}
-              ProductImageAlt="Recommended1 Image"
+              ProductImageAlt="Popular Image"
               ProductPrice={formatPrice(product.price)}
               ProductTitle={product.property_type}
               ProductLocation={product.location}
             />
           ))
         ) : (
-          <p>No recommended products available.</p>
+          <p>No popular products available.</p>
         )}
       </div>
       <Footer currentRoute={window.location.pathname} />
@@ -97,4 +95,4 @@ function Recommendation() {
   );
 }
 
-export default Recommendation;
+export default Popular;

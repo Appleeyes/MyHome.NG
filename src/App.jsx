@@ -30,6 +30,7 @@ import Paystack from './app/pages/Paystack';
 import PaymentLoad from './app/pages/PaymentLoad';
 import PaymentComplete from './app/pages/PaymentComplete';
 import Recommendation from './app/pages/Recommendation';
+import Popular from "./app/pages/Popular";
 import Favourite from './app/pages/Favourite';
 import Notification from './app/pages/Notification';
 import ProductOverview from './app/pages/ProductOverview';
@@ -72,6 +73,7 @@ function App() {
         <Route path="/payment" component={PaymentMethod} />
         <Route path="/product/home" component={HomeType} />
         <Route path="/product/recommended" component={Recommendation} />
+        <Route path="/product/popular" component={Popular} />
         <Route path="/product/bookmarked" component={Favourite} />
         <Route path="/product/overview" component={ProductOverview} />
         <Route path="/product/filter" component={Filter} />

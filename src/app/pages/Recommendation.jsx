@@ -86,6 +86,7 @@ function Recommendation() {
               ProductPrice={formatPrice(product.price)}
               ProductTitle={product.property_type}
               ProductLocation={product.location}
+              ProductId={product.id}
             />
           ))
         ) : (

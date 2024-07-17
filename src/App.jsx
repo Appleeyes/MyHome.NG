@@ -75,10 +75,9 @@ function App() {
         <Route path="/product/recommended" component={Recommendation} />
         <Route path="/product/popular" component={Popular} />
         <Route path="/product/bookmarked" component={Favourite} />
-        <Route path="/product/overview" component={ProductOverview} />
+        <Route path="/product/overview/:productId" component={ProductOverview}/>
         <Route path="/product/filter" component={Filter} />
         <Route path="/product/premium" component={Premium} />
-
         <Route path="/" component={Onboarding} />
       </Switch>
     </Router>

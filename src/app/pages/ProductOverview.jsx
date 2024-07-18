@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import "../assets/css/Hometype.css";
@@ -12,6 +12,7 @@ function ProductOverview() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
   const getProductDetails = async () => {
     const token = localStorage.getItem("token");
@@ -46,6 +47,38 @@ function ProductOverview() {
     getProductDetails();
   }, [productId]);
 
+  const handleContactAgent = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Authentication token not found");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `https://myhome-ng-backend.onrender.com/api/v1/contact-agent/${productId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const chatId = response.data.data.id;
+      const agentId = response.data.data.agent_id; // Assuming agent_id is returned from the backend
+      history.push(
+        `/chat/product/${productId}/agent/${agentId}?chatId=${chatId}`
+      );
+    } catch (err) {
+      if (err.response) {
+        console.error(err.response.data.message);
+      } else {
+        console.error("An unexpected error occurred");
+      }
+    }
+  };
+
+
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-NG", {
       style: "currency",
@@ -61,7 +94,10 @@ function ProductOverview() {
       <ProductComponent PageTitle="Property Overview" />
 
       {loading ? (
-        <div className="spinner-container" style={{width: "20%", marginTop: "50%"}}>
+        <div
+          className="spinner-container"
+          style={{ width: "20%", marginTop: "50%" }}
+        >
           <ClipLoader
             color={"rgb(122, 122, 122)"}
             loading={loading}
@@ -128,7 +164,7 @@ function ProductOverview() {
                 <p>{product.parking_lot}</p>
               </li>
             </ul>
-            <Button link={`/contact-agent/${product.user_id}`}>Contact Agent</Button>
+            <Button onClick={handleContactAgent}>Contact Agent</Button>
           </div>
         </>
       ) : (

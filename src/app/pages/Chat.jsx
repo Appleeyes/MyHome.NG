@@ -16,7 +16,6 @@ const Chat = () => {
   const [product, setProduct] = useState(null);
   const [agent, setAgent] = useState(null);
   const [tenant, setTenant] = useState(null);
-  const userId = localStorage.getItem("userId");
 
   const fetchChatDetails = useCallback(async () => {
     const token = localStorage.getItem("token");
@@ -106,12 +105,12 @@ const Chat = () => {
 
   const getSenderDetails = (senderId) => {
     if (agent && agent.id === senderId) {
-      return { name: agent.name, image: agent.image };
+      return { name: agent.name, image: agent.image, role: "landlord" };
     }
     if (tenant && tenant.id === senderId) {
-      return { name: tenant.name, image: tenant.image };
+      return { name: tenant.name, image: tenant.image, role: "tenant" };
     }
-    return { name: "Unknown", image: null };
+    return { name: "Unknown", image: null, role: "unknown" };
   };
 
   const formatTime = (time) => {
@@ -161,16 +160,23 @@ const Chat = () => {
           </div>
         )}
         {messages.map((msg, index) => {
-          const isSender = msg.sender_id === parseInt(userId);
-          const { name, image } = getSenderDetails(msg.sender_id);
+          const senderDetails = getSenderDetails(msg.sender_id);
+          const isSender = senderDetails.role === "landlord";
+
           return (
             <div
               key={index}
               className={`chat-message ${isSender ? "landlord" : "tenant"}`}
             >
               <div className="message-header">
-                {image && <img src={image} alt={name} className="user-image" />}
-                <span className="user-name">{name}</span>
+                {senderDetails.image && (
+                  <img
+                    src={senderDetails.image}
+                    alt={senderDetails.name}
+                    className="user-image"
+                  />
+                )}
+                <span className="user-name">{senderDetails.name}</span>
               </div>
               <div className="message-body">{msg.message}</div>
               <div className="message-time">{formatTime(msg.created_at)}</div>

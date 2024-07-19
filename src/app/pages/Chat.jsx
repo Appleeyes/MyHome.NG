@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
-import "../assets/css/ChatComponent.css";
+import "../assets/css/Chat.css";
 import ArrowBack from "../components/ArrowBackComponent";
+import Footer from "../components/Footer";
 
-const ChatComponent = () => {
+const Chat = () => {
   const { productId, agentId } = useParams();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -14,9 +15,11 @@ const ChatComponent = () => {
   const [newMessage, setNewMessage] = useState("");
   const [chatId, setChatId] = useState(chatIdFromQuery);
   const [product, setProduct] = useState(null);
-  const userRole = localStorage.getItem("userRole");
+  const [agent, setAgent] = useState(null);
+  const [tenant, setTenant] = useState(null);
+  const userId = localStorage.getItem("userId");
 
-  const fetchProductDetails = async () => {
+  const fetchChatDetails = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -26,34 +29,7 @@ const ChatComponent = () => {
 
     try {
       const response = await axios.get(
-        `https://myhome-ng-backend.onrender.com/api/v1/products/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setProduct(response.data.data);
-    } catch (err) {
-      if (err.response) {
-        console.error(err.response.data.message);
-      } else {
-        console.error("An unexpected error occurred");
-      }
-    }
-  };
-
-  const fetchChats = async () => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      console.error("Authentication token not found");
-      return;
-    }
-
-    try {
-      const response = await axios.get(
-        `https://myhome-ng-backend.onrender.com/api/v1/chats/product/${productId}/agent/${agentId}`,
+        `https://myhome-ng-backend.onrender.com/api/v1/chats/${chatId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,6 +43,9 @@ const ChatComponent = () => {
         console.error("No messages found in chat data");
       }
       setChatId(chatData.id);
+      setProduct(chatData.product);
+      setAgent(chatData.agent);
+      setTenant(chatData.tenant);
     } catch (err) {
       if (err.response) {
         console.error(err.response.data.message);
@@ -111,11 +90,37 @@ const ChatComponent = () => {
   };
 
   useEffect(() => {
-    if (productId && agentId && chatId) {
-      fetchChats();
-      fetchProductDetails();
+    if (chatId) {
+      fetchChatDetails();
     }
-  }, [productId, agentId, chatId]);
+  }, [chatId]);
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      minimumFractionDigits: 0,
+    })
+      .format(price)
+      .replace("NGN", "#");
+  };
+
+  const getSenderDetails = (senderId) => {
+    if (agent && agent.id === senderId) {
+      return { name: agent.name, image: agent.image };
+    }
+    if (tenant && tenant.id === senderId) {
+      return { name: tenant.name, image: tenant.image };
+    }
+    return { name: "Unknown", image: null };
+  };
+
+  const formatTime = (time) => {
+    return new Date(time).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   return (
     <div className="chat-container">
@@ -136,15 +141,40 @@ const ChatComponent = () => {
         )}
       </div>
       <div className="chat-messages">
-        <div className="chat-message landlord">How can I be of help?</div>
+        {agent && (
+          <div className="chat-message landlord">
+            <div className="message-header">
+              <img src={agent.image} alt={agent.name} className="user-image" />
+              <p className="user-name">{agent.name}</p>
+            </div>
+            <div className="contact-det">
+              <p>
+                <span>Email:</span>{" "}
+                <a href={`mailto:${agent.email}`}>{agent.email}</a>
+              </p>
+              <p>
+                <span>Phone:</span>{" "}
+                <a href={`tel:${agent.phone_number}`}>{agent.phone_number}</a>
+              </p>
+            </div>
+
+            <div className="message-body">How can I be of help?</div>
+          </div>
+        )}
         {messages.map((msg, index) => {
-          const isTenant = userRole === "tenant";
+          const isSender = msg.sender_id === parseInt(userId);
+          const { name, image } = getSenderDetails(msg.sender_id);
           return (
             <div
               key={index}
-              className={`chat-message ${isTenant ? "tenant" : "landlord"}`}
+              className={`chat-message ${isSender ? "landlord" : "tenant"}`}
             >
-              {msg.message}
+              <div className="message-header">
+                {image && <img src={image} alt={name} className="user-image" />}
+                <span className="user-name">{name}</span>
+              </div>
+              <div className="message-body">{msg.message}</div>
+              <div className="message-time">{formatTime(msg.created_at)}</div>
             </div>
           );
         })}
@@ -158,18 +188,9 @@ const ChatComponent = () => {
         />
         <button onClick={sendMessage}>Send</button>
       </div>
+      <Footer currentRoute={window.location.pathname} />
     </div>
   );
 };
 
-const formatPrice = (price) => {
-  return new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-  })
-    .format(price)
-    .replace("NGN", "#");
-};
-
-export default ChatComponent;
+export default Chat;

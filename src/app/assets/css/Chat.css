@@ -34,7 +34,7 @@
     margin: 0;
 }
 
-.product-image{
+.chat-container .product-image{
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -66,10 +66,51 @@
     width: 60%;
 }
 
+.message-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.user-image {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+.contact-det{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 5px;
+}
+
+.contact-det p{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+.contact-det span{
+    font-weight: 700;
+}
+
+.message-time {
+    font-size: 0.8em;
+    color: #888;
+    text-align: right;
+}
+
 .chat-input {
     display: flex;
     padding: 10px;
     border-top: 1px solid #ccc;
+    margin-bottom: 70px;
 }
 
 .chat-input input {

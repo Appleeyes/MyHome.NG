@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import { useHistory } from "react-router-dom";
 import "../assets/css/Hometype.css";
 import ProductComponent from "../components/ProductComponent";
 import ProductCard from "../components/ProductCard";
@@ -16,7 +15,6 @@ axiosRetry(axios, {
 function Recommendation() {
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
 
   const getRecommendedProduct = async () => {
     const token = localStorage.getItem("token");

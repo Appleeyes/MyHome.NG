@@ -117,9 +117,9 @@ function Homepage() {
           <img src={Home} alt="Home" />
           <p>House</p>
         </a>
-        <a href="/product/home">
+        <a href="/chats">
           <img src={Apartment} alt="Apartment" />
-          <p>Popular</p>
+          <p>Chats</p>
         </a>
         <a href="/user/loan">
           <img src={Loan} alt="Loan" />

@@ -35,7 +35,8 @@ import Favourite from './app/pages/Favourite';
 import Notification from './app/pages/Notification';
 import ProductOverview from './app/pages/ProductOverview';
 import ProductManagement from './app/pages/Product/Management';
-import Chat from "./app/pages/Tenant/Chat";
+import Chat from "./app/pages/Chat";
+import ChatList from "./app/pages/ChatList";
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -59,6 +60,7 @@ function App() {
         <Route path="/verify-email" component={EmailVerify} />
         <Route path="/account-success" component={AccountSuccess} />
         <Route path="/chat/product/:productId/agent/:agentId" component={Chat} />
+        <Route path="/chats" component={ChatList} />
         <Route path="/user/loan" component={Loan} />
         <Route path="/loan/apply" component={LoanApplication} />
         <Route path="/loan/process" component={LoanProcess} />

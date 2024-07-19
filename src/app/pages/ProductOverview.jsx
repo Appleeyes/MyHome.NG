@@ -8,43 +8,43 @@ import ProductComponent from "../components/ProductComponent";
 import Button from "../components/ButtonComponent";
 import Footer from "../components/Footer";
 
+async function getProductDetails(productId, setProduct, setLoading) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.error("Authentication token not found");
+    return;
+  }
+
+  try {
+    const response = await axios.get(
+      `https://myhome-ng-backend.onrender.com/api/v1/products/${productId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    setProduct(response.data.data);
+  } catch (err) {
+    if (err.response) {
+      console.error(err.response.data.message);
+    } else {
+      console.error("An unexpected error occurred");
+    }
+  } finally {
+    setLoading(false);
+  }
+}
+
 function ProductOverview() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
-  const getProductDetails = async () => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      console.error("Authentication token not found");
-      return;
-    }
-
-    try {
-      const response = await axios.get(
-        `https://myhome-ng-backend.onrender.com/api/v1/products/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setProduct(response.data.data);
-    } catch (err) {
-      if (err.response) {
-        console.error(err.response.data.message);
-      } else {
-        console.error("An unexpected error occurred");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getProductDetails();
+    getProductDetails(productId, setProduct, setLoading);
   }, [productId]);
 
   const handleContactAgent = async () => {
@@ -77,7 +77,6 @@ function ProductOverview() {
       }
     }
   };
-
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-NG", {

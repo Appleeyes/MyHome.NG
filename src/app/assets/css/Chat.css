@@ -8,6 +8,7 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .chat-header {
@@ -16,25 +17,30 @@
     display: flex;
     gap: 30%;
     padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
-.product-det{
+.product-det {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.product-info{
+.product-info {
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
-.product-info p{
+.product-info p {
     margin: 0;
 }
 
-.chat-container .product-image{
+.chat-container .product-image {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -45,6 +51,8 @@
     flex: 1;
     padding: 10px;
     overflow-y: auto;
+    padding-top: 60px;
+    padding-bottom: 60px;
 }
 
 .chat-message {
@@ -83,20 +91,20 @@
     font-weight: bold;
 }
 
-.contact-det{
+.contact-det {
     display: flex;
     flex-direction: column;
     gap: 0;
     margin-bottom: 5px;
 }
 
-.contact-det p{
+.contact-det p {
     margin: 0;
     padding: 0;
     font-size: 12px;
 }
 
-.contact-det span{
+.contact-det span {
     font-weight: 700;
 }
 
@@ -110,7 +118,12 @@
     display: flex;
     padding: 10px;
     border-top: 1px solid #ccc;
-    margin-bottom: 70px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 1;
 }
 
 .chat-input input {

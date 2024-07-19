@@ -30,10 +30,13 @@ import Paystack from './app/pages/Paystack';
 import PaymentLoad from './app/pages/PaymentLoad';
 import PaymentComplete from './app/pages/PaymentComplete';
 import Recommendation from './app/pages/Recommendation';
+import Popular from "./app/pages/Popular";
 import Favourite from './app/pages/Favourite';
 import Notification from './app/pages/Notification';
 import ProductOverview from './app/pages/ProductOverview';
 import ProductManagement from './app/pages/Product/Management';
+import Chat from "./app/pages/Chat";
+import ChatList from "./app/pages/ChatList";
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -56,6 +59,8 @@ function App() {
         <Route path="/user/home" component={UserHome} />
         <Route path="/verify-email" component={EmailVerify} />
         <Route path="/account-success" component={AccountSuccess} />
+        <Route path="/chat/product/:productId/agent/:agentId" component={Chat} />
+        <Route path="/chats" component={ChatList} />
         <Route path="/user/loan" component={Loan} />
         <Route path="/loan/apply" component={LoanApplication} />
         <Route path="/loan/process" component={LoanProcess} />
@@ -72,11 +77,11 @@ function App() {
         <Route path="/payment" component={PaymentMethod} />
         <Route path="/product/home" component={HomeType} />
         <Route path="/product/recommended" component={Recommendation} />
+        <Route path="/product/popular" component={Popular} />
         <Route path="/product/bookmarked" component={Favourite} />
-        <Route path="/product/overview" component={ProductOverview} />
+        <Route path="/product/overview/:productId" component={ProductOverview} />
         <Route path="/product/filter" component={Filter} />
         <Route path="/product/premium" component={Premium} />
-
         <Route path="/" component={Onboarding} />
       </Switch>
     </Router>

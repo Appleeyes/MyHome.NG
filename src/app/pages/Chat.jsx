@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "../assets/css/Chat.css";
 import ArrowBack from "../components/ArrowBackComponent";
 import Footer from "../components/Footer";
 
 const Chat = () => {
-  const { productId, agentId } = useParams();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const chatIdFromQuery = queryParams.get("chatId");
@@ -19,7 +18,7 @@ const Chat = () => {
   const [tenant, setTenant] = useState(null);
   const userId = localStorage.getItem("userId");
 
-  const fetchChatDetails = async () => {
+  const fetchChatDetails = useCallback(async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -53,7 +52,7 @@ const Chat = () => {
         console.error("An unexpected error occurred");
       }
     }
-  };
+  }, [chatId]);
 
   const sendMessage = async () => {
     const token = localStorage.getItem("token");
@@ -93,7 +92,7 @@ const Chat = () => {
     if (chatId) {
       fetchChatDetails();
     }
-  }, [chatId]);
+  }, [chatId, fetchChatDetails]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-NG", {

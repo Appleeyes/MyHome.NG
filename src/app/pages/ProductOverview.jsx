@@ -65,7 +65,7 @@ function ProductOverview() {
         }
       );
       const chatId = response.data.data.id;
-      const agentId = response.data.data.agent_id; // Assuming agent_id is returned from the backend
+      const agentId = response.data.data.agent_id;
       history.push(
         `/chat/product/${productId}/agent/${agentId}?chatId=${chatId}`
       );

@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "../assets/css/Chat.css";
 import ArrowBack from "../components/ArrowBackComponent";
-import Footer from "../components/Footer";
 
 const Chat = () => {
   const location = useLocation();
@@ -193,7 +192,6 @@ const Chat = () => {
         />
         <button onClick={sendMessage}>Send</button>
       </div>
-      <Footer currentRoute={window.location.pathname} />
     </div>
   );
 };

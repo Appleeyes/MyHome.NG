@@ -12,53 +12,97 @@ import SettingActive from "../assets/images/settings-active.svg";
 import ProfileActive from "../assets/images/profile-active.svg";
 
 function Footer({ currentRoute }) {
-    const getIcon = (route) => {
-        switch (route) {
-            case "/user/home":
-                return currentRoute === "/user/home" ? HomeActive : HomeIcon;
-            case "/product/bookmarked":
-                return currentRoute === "/product/bookmarked" ? LoveActive : LoveIcon;
-            case "/search":
-                return currentRoute === "/search" ? SearchActive : SearchIcon;
-            case "/settings":
-                return currentRoute === "/settings" ? SettingActive : SettingIcon;
-            case "/user/profile":
-                return currentRoute === "/user/profile" ? ProfileActive : ProfileIcon;
-            default:
-                return SettingIcon;
-        }
+  const userRole = localStorage.getItem("userRole");
+
+  const getIcon = (route) => {
+    switch (route) {
+      case "/user/home":
+      case "/landlord/home":
+        return currentRoute === route ? HomeActive : HomeIcon;
+      case "/product/bookmarked":
+      case "/landlord/properties":
+        return currentRoute === route ? LoveActive : LoveIcon;
+      case "/search":
+      case "/landlord/search":
+        return currentRoute === route ? SearchActive : SearchIcon;
+      case "/settings":
+      case "/landlord/settings":
+        return currentRoute === route ? SettingActive : SettingIcon;
+      case "/user/profile":
+      case "/landlord/profile":
+        return currentRoute === route ? ProfileActive : ProfileIcon;
+      default:
+        return SettingIcon;
+    }
+  };
+
+  const getRoute = () => {
+    if (userRole === "landlord") {
+      return {
+        home: "/landlord/home",
+        bookmarked: "/landlord/properties",
+        search: "/landlord/search",
+        settings: "/landlord/settings",
+        profile: "/landlord/profile",
+      };
+    }
+    return {
+      home: "/user/home",
+      bookmarked: "/product/bookmarked",
+      search: "/search",
+      settings: "/settings",
+      profile: "/user/profile",
     };
-    return (
-        <div className="footer">
-            <ul>
-                <li>
-                    <a href="/user/home" className={currentRoute === "/user/home" ? "active" : ""}>
-                    <img src={getIcon("/user/home")} alt="Home Icon" />
-                    </a>
-                </li>
-                <li>
-                    <a href="/product/bookmarked" className={currentRoute === "/product/bookmarked" ? "active" : ""}>
-                        <img src={getIcon("/product/bookmarked")} alt="Love Icon" />
-                    </a>
-                </li>
-                <li>
-                    <a href="/search" className={currentRoute === "/search" ? "active" : ""}>
-                        <img src={getIcon("/search")} alt="Search Icon" />
-                    </a>
-                </li>
-                <li>
-                    <a href="/settings" className={currentRoute === "/settings" ? "active" : ""}>
-                        <img src={getIcon("/settings")} alt="Setting Icon" />
-                    </a>
-                </li>
-                <li>
-                    <a href="/user/profile" className={currentRoute === "/user/profile" ? "active" : ""}>
-                        <img src={getIcon("/user/profile")} alt="Profile Icon" />
-                    </a>
-                </li>
-            </ul>
-        </div>
-    );
+  };
+
+  const routes = getRoute();
+
+  return (
+    <div className="footer">
+      <ul>
+        <li>
+          <a
+            href={routes.home}
+            className={currentRoute === routes.home ? "active" : ""}
+          >
+            <img src={getIcon(routes.home)} alt="Home Icon" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={routes.bookmarked}
+            className={currentRoute === routes.bookmarked ? "active" : ""}
+          >
+            <img src={getIcon(routes.bookmarked)} alt="Love Icon" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={routes.search}
+            className={currentRoute === routes.search ? "active" : ""}
+          >
+            <img src={getIcon(routes.search)} alt="Search Icon" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={routes.settings}
+            className={currentRoute === routes.settings ? "active" : ""}
+          >
+            <img src={getIcon(routes.settings)} alt="Setting Icon" />
+          </a>
+        </li>
+        <li>
+          <a
+            href={routes.profile}
+            className={currentRoute === routes.profile ? "active" : ""}
+          >
+            <img src={getIcon(routes.profile)} alt="Profile Icon" />
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
 }
 
 export default Footer;

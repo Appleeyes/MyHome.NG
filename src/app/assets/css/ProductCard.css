@@ -86,3 +86,7 @@
     padding: 3px;
     border-radius: 30px;
 }
+
+.love-img img.bookmarked {
+    background-color: blue;
+}

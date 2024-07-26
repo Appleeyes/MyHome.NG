@@ -1,43 +1,41 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import "../assets/css/OnboardingSteps.css";
 import Button from "../components/ButtonComponent";
 
 function SignupRole() {
-  const [message, setMessage] = useState("")
-  const [error, setError] = useState("")
-  const history = useHistory()
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [isLandlordSubmitting, setIsLandlordSubmitting] = useState(false);
+  const [isTenantSubmitting, setIsTenantSubmitting] = useState(false);
+  const history = useHistory();
 
-  const setRole = async (role) => {
-    try{
-      const response = await axios.post("https://myhome-ng-backend.onrender.com/api/v1/set-role", {
-        role
-      })
-      const userId = response.data.user_id
-      if (!userId) {
-        throw new Error("User ID is missing in the response");
-      }
+  const setRole = (role) => {
+    if (role === "landlord") {
+      setIsLandlordSubmitting(true);
+    } else if (role === "tenant") {
+      setIsTenantSubmitting(true);
+    }
 
-      localStorage.setItem('userId', userId)
+    try {
       localStorage.setItem("role", role);
-      setMessage(response.data.message);
+      setMessage("Role set successfully.");
       setError(null);
-      if(role === 'landlord'){
+      if (role === "landlord") {
         history.push("/landlord/access");
-      }else if(role === 'tenant'){
+      } else if (role === "tenant") {
         history.push("/tenant/access");
       }
-    } catch(err){
+    } catch (err) {
       console.error("Error setting role:", err);
-      if (err.response) {
-        const apiError = err.response.data.error;
-        setError(apiError);
-      } else {
-        setError("An unexpexted error occured");
-      }
+      setError("An unexpected error occurred");
+    } finally {
+      setIsLandlordSubmitting(false);
+      setIsTenantSubmitting(false);
     }
-  }
+  };
+
   return (
     <div className="signup-role">
       <div className="background-image">
@@ -45,8 +43,18 @@ function SignupRole() {
           {error && <div className="error">{error}</div>}
           {message && <div className="message">{message}</div>}
           <h5>Are you</h5>
-          <Button onClick={() => setRole("landlord")}>Land Lord</Button>
-          <Button onClick={() => setRole("tenant")}>Tenant</Button>
+          <Button
+            onClick={() => setRole("landlord")}
+            disabled={isLandlordSubmitting || isTenantSubmitting}
+          >
+            {isLandlordSubmitting ? "Submitting..." : "Landlord"}
+          </Button>
+          <Button
+            onClick={() => setRole("tenant")}
+            disabled={isTenantSubmitting || isLandlordSubmitting}
+          >
+            {isTenantSubmitting ? "Submitting..." : "Tenant"}
+          </Button>
         </div>
       </div>
     </div>

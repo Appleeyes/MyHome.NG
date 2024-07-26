@@ -19,6 +19,7 @@ function FormComponent({
   );
   const [formData, setFormData] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,14 +33,21 @@ function FormComponent({
     setShowPassword((prevState) => !prevState);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (typeof onSubmitCustom === "function") {
-      onSubmitCustom(formData);
-    } else if (typeof onSubmit === "function") {
-      onSubmit(formData);
-    } else {
-      window.location.href = onSubmit;
+    setIsSubmitting(true)
+    try{
+      if (typeof onSubmitCustom === "function") {
+        await onSubmitCustom(formData);
+      } else if (typeof onSubmit === "function") {
+        await onSubmit(formData);
+      } else {
+        window.location.href = onSubmit;
+      }
+    } catch (error){
+      console.error("Error during form submission:", error);
+    } finally{
+        setIsSubmitting(false);
     }
   };
 
@@ -56,6 +64,7 @@ function FormComponent({
                 onChange={handleChange}
                 placeholder={field.label}
                 className="form-input"
+                disabled={isSubmitting}
               />
               <img
                 src={eyeIcon}
@@ -72,6 +81,7 @@ function FormComponent({
               onChange={handleChange}
               placeholder={field.label}
               className="form-input"
+              disabled={isSubmitting}
             />
           )}
         </div>
@@ -79,8 +89,16 @@ function FormComponent({
       <div className="forgotPassword">
         <Link to={forgotPasswordLink}>{forgotPasswordText}</Link>
       </div>
-      <button type="submit" className="submit-button">
-        {submitButtonText}
+      <button
+        type="submit"
+        className="submit-button"
+        disabled={isSubmitting}
+        style={{
+          backgroundColor: isSubmitting ? "#ddd" : "#007bff",
+          cursor: isSubmitting ? "not-allowed" : "pointer",
+        }}
+      >
+        {isSubmitting ? "Submitting..." : submitButtonText}
       </button>
       <div className="additional-tag">
         {additionalTagText}{" "}

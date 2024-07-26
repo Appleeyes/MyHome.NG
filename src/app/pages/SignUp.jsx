@@ -16,6 +16,7 @@ function SignUp() {
   const [error, setError] = useState(null);
   const [userId, setUserId] = useState(null);
   const history = useHistory();
+  const [role, setRole] = useState(null);
 
   const fields = [
     { name: "fullName", label: "Full Name", type: "text" },
@@ -26,14 +27,9 @@ function SignUp() {
   ];
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem('userId')
-    
-    if(storedUserId){
-      setUserId(storedUserId)
-    }else{
-      setError('User ID not found')
-    }
-  }, [])
+    const storedRole = localStorage.getItem("role");
+    setRole(storedRole);
+  }, []);
 
   const handleSignUp = async (formData) => {
     const { fullName, phoneNumber, email, password, confirmPassword } =
@@ -47,7 +43,7 @@ function SignUp() {
           phone_number: phoneNumber,
           password,
           password_confirmation: confirmPassword,
-          user_id: userId,
+          role,
         }
       );
       setMessage(response.data.message);
@@ -61,22 +57,24 @@ function SignUp() {
         const apiError = err.response.data.data.errors;
         setError(apiError);
       } else {
-        setError("An unexpexted error occured");
+        setError("An unexpected error occurred");
       }
     }
   };
 
   const sendVerificationEmail = async (e) => {
-    e.preventDefault()
-    if (!userId){
-      setError("User ID not found")
-      return
+    e.preventDefault();
+    if (!userId) {
+      setError("User ID not found");
+      return;
     }
     try {
-      const response = await axios.post(`https://myhome-ng-backend.onrender.com/api/v1/${userId}/send-verification-email`)
-      setMessage(response.data.message)
+      const response = await axios.post(
+        `https://myhome-ng-backend.onrender.com/api/v1/${userId}/send-verification-email`
+      );
+      setMessage(response.data.message);
       history.push("/verify-email");
-    } catch(err){
+    } catch (err) {
       if (err.response) {
         const apiError = err.response.data.message;
         setError(apiError);
@@ -84,7 +82,7 @@ function SignUp() {
         setError("An unexpected error occurred");
       }
     }
-  }
+  };
 
   return (
     <div className="SignUp">
@@ -111,7 +109,11 @@ function SignUp() {
             <p>Verify Your Email</p>
           </div>
           <div className="buttons">
-            <a className="link" href="/verify-email" onClick={sendVerificationEmail}>
+            <a
+              className="link"
+              href="/verify-email"
+              onClick={sendVerificationEmail}
+            >
               Verify
             </a>
             <a className="link" href="/account-success">

@@ -46,6 +46,10 @@ function Homepage() {
             <img src={ChatIcon} alt="Chat Icon" />
             <p>Chats</p>
           </a>
+          {/* <a href="/product/management" className="activity-item">
+            <img src={Activity4} alt="Activity Icon" />
+            <p>Premium Listing</p>
+          </a> */}
         </div>
         <Footer currentRoute={window.location.pathname} />
       </div>

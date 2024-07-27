@@ -10,6 +10,7 @@ import Loan from "../../assets/images/loan.svg";
 import Apartment from "../../assets/images/apartment.svg";
 import Location from "../../assets/images/location.svg";
 import Love from "../../assets/images/love-icon.svg";
+import Loved from "../../assets/images/loved.svg";
 import Rating from "../../assets/images/rating.svg";
 import SearchComponent from "../../components/SearchComponent";
 import Footer from "../../components/Footer";
@@ -49,7 +50,7 @@ function Homepage() {
         console.error("An unexpected error occured");
       }
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -82,13 +83,36 @@ function Homepage() {
         console.error("An unexpected error occured");
       }
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     getPopularProduct();
   }, []);
+
+  const toggleBookmark = async (productId, isBookmarked, setBookmarkState) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Authentication token not found");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `https://myhome-ng-backend.onrender.com/api/v1/products/${productId}/bookmark`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setBookmarkState(!isBookmarked);
+    } catch (err) {
+      console.error("Failed to toggle bookmark:", err);
+    }
+  };
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-NG", {
@@ -97,13 +121,15 @@ function Homepage() {
       minimumFractionDigits: 0,
     })
       .format(price)
+      .replace("NGN", "#");
   };
+
   return (
     <div className="user-homepage">
       <div className="user-head">
         <div className="user-info">
           <a href="/user/profile">
-            <img src={ProfileWoman} alt="Profile Imge" />
+            <img src={ProfileWoman} alt="Profile Woman" />
           </a>
           <h3>Hello Fade,</h3>
         </div>
@@ -155,7 +181,26 @@ function Homepage() {
                     <img src={Location} alt="Location Icon" />
                     <p>{product.location}</p>
                     <div className="lov-img">
-                      <img src={Love} alt="Love Icon" />
+                      <img
+                        src={product.isBookmarked ? Loved : Love}
+                        alt="Love Icon"
+                        className={product.isBookmarked ? "bookmarked" : ""}
+                        onClick={() =>
+                          toggleBookmark(
+                            product.id,
+                            product.isBookmarked,
+                            (newBookmarkState) => {
+                              setRecommendedProducts((prev) =>
+                                prev.map((p) =>
+                                  p.id === product.id
+                                    ? { ...p, isBookmarked: newBookmarkState }
+                                    : p
+                                )
+                              );
+                            }
+                          )
+                        }
+                      />
                     </div>
                   </div>
                   <div className="ratings">
@@ -198,7 +243,26 @@ function Homepage() {
                     <img src={Location} alt="Location Icon" />
                     <p>{product.location}</p>
                     <div className="lov-img">
-                      <img src={Love} alt="Love Icon" />
+                      <img
+                        src={product.isBookmarked ? Loved : Love}
+                        alt="Love Icon"
+                        className={product.isBookmarked ? "bookmarked" : ""}
+                        onClick={() =>
+                          toggleBookmark(
+                            product.id,
+                            product.isBookmarked,
+                            (newBookmarkState) => {
+                              setPopularProducts((prev) =>
+                                prev.map((p) =>
+                                  p.id === product.id
+                                    ? { ...p, isBookmarked: newBookmarkState }
+                                    : p
+                                )
+                              );
+                            }
+                          )
+                        }
+                      />
                     </div>
                   </div>
                   <div className="ratings">

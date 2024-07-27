@@ -156,6 +156,14 @@
     height: 8.57px;
 }
 
+.lov-img img.bookmarked {
+    width: 10px;
+    height: 10px;
+    background-color: #0165FC;
+    padding: 3px;
+    border-radius: 30px;
+}
+
 .down .ratings {
     position: absolute;
     top: 8%;

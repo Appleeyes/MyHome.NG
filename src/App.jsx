@@ -16,8 +16,7 @@ import Search from './app/pages/SearchPage';
 import Loan from './app/pages/Loan/Loan';
 import LoanApplication from './app/pages/Loan/Application';
 import LoanProcess from './app/pages/Loan/Process';
-import UserProfile from './app/pages/Tenant/Profile';
-import LandlordProfile from './app/pages/Landlord/Profile';
+import Profile from './app/pages/Profile';
 import UserHome from './app/pages/Tenant/Homepage';
 import LandlordHome from './app/pages/Landlord/Homepage';
 import ReceiptGeneration from './app/pages/Landlord/ReceiptGeneration';
@@ -55,7 +54,7 @@ function App() {
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/product/management" component={ProductManagement} />
         <Route path="/user/management" component={TenantManagement} />
-        <Route path="/user/profile" component={UserProfile} />
+        <Route path="/user/profile" component={Profile} />
         <Route path="/user/home" component={UserHome} />
         <Route path="/verify-email" component={EmailVerify} />
         <Route path="/account-success" component={AccountSuccess} />
@@ -64,7 +63,6 @@ function App() {
         <Route path="/user/loan" component={Loan} />
         <Route path="/loan/apply" component={LoanApplication} />
         <Route path="/loan/process" component={LoanProcess} />
-        <Route path="/landlord/dashboard" component={LandlordProfile} />
         <Route path="/landlord/home" component={LandlordHome} />
         <Route path="/landlord/performance" component={Performance} />
         <Route path="/landlord/access/get-started" component={PremiumListing} />

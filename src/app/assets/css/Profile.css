@@ -95,3 +95,35 @@
     font-weight: 500;
     line-height: 22px;
 }
+
+.user-profile .activity {
+    display: flex;
+    justify-content: space-between;
+    background-color: #F3F5F8;
+    margin-top: 30px;
+    padding: 5px;
+}
+
+.activity h5 {
+    margin-bottom: 0;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18.75px;
+    text-align: left;
+}
+
+.activity .activity-down {
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+    justify-content: space-between;
+}
+
+.activity .activity-down p {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+    width: 80%;
+}

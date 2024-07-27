@@ -83,6 +83,7 @@ function Popular() {
               ProductTitle={product.property_type}
               ProductLocation={product.location}
               ProductId={product.id}
+              isBookmarked={product.isBookmarked}
             />
           ))
         ) : (

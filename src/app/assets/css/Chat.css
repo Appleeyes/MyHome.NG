@@ -146,3 +146,12 @@
 .chat-input button:hover {
     background-color: #0056b3;
 }
+
+.chat-input button:disabled {
+    background-color: #b2bec3;
+    cursor: not-allowed;
+}
+
+.chat-input button:hover:not(:disabled) {
+    background-color: #2980b9;
+}

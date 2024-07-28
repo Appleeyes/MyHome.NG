@@ -17,6 +17,7 @@ function SignUp() {
   const [userId, setUserId] = useState(null);
   const history = useHistory();
   const [role, setRole] = useState(null);
+  const [isSendingVerification, setIsSendingVerification] = useState(false);
 
   const fields = [
     { name: "fullName", label: "Full Name", type: "text" },
@@ -34,6 +35,7 @@ function SignUp() {
   const handleSignUp = async (formData) => {
     const { fullName, phoneNumber, email, password, confirmPassword } =
       formData;
+
     try {
       const response = await axios.post(
         "https://myhome-ng-backend.onrender.com/api/v1/register",
@@ -68,6 +70,9 @@ function SignUp() {
       setError("User ID not found");
       return;
     }
+
+    setIsSendingVerification(true);
+
     try {
       const response = await axios.post(
         `https://myhome-ng-backend.onrender.com/api/v1/${userId}/send-verification-email`
@@ -81,6 +86,8 @@ function SignUp() {
       } else {
         setError("An unexpected error occurred");
       }
+    } finally {
+      setIsSendingVerification(false);
     }
   };
 
@@ -109,13 +116,13 @@ function SignUp() {
             <p>Verify Your Email</p>
           </div>
           <div className="buttons">
-            <a
+            <button
               className="link"
-              href="/verify-email"
               onClick={sendVerificationEmail}
+              disabled={isSendingVerification}
             >
-              Verify
-            </a>
+              {isSendingVerification ? "Sending..." : "Verify"}
+            </button>
             <a className="link" href="/account-success">
               Skip
             </a>

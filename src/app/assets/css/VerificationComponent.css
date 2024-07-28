@@ -72,3 +72,21 @@
     line-height: 18.75px;
     letter-spacing: 0.0162em;
 }
+
+.verify-container .disabled-link {
+    color: #b2bec3;
+    cursor: not-allowed;
+    pointer-events: none;
+    text-decoration: none;
+}
+
+.verify-container .disabled-button {
+    background-color: #b2bec3;
+    cursor: not-allowed;
+    border: none;
+}
+
+.verify-container input:disabled {
+    background-color: #f1f1f1;
+    cursor: not-allowed;
+}

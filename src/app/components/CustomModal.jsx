@@ -6,7 +6,7 @@ function CustomModal({ isOpen, onClose, children }) {
         <div className='modal'>
             <div className='modal-content'>
                 {children}
-                <button onClick={() => onClose(false)}>X</button>
+                <button className='close' onClick={() => onClose(false)}>X</button>
             </div>
         </div>
     );

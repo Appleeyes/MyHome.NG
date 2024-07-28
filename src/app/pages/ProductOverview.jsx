@@ -41,6 +41,7 @@ function ProductOverview() {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -48,9 +49,11 @@ function ProductOverview() {
   }, [productId]);
 
   const handleContactAgent = async () => {
+    setIsSubmitting(true);
     const token = localStorage.getItem("token");
     if (!token) {
       console.error("Authentication token not found");
+      setIsSubmitting(false);
       return;
     }
 
@@ -75,6 +78,8 @@ function ProductOverview() {
       } else {
         console.error("An unexpected error occurred");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -163,7 +168,9 @@ function ProductOverview() {
                 <p>{product.parking_lot}</p>
               </li>
             </ul>
-            <Button onClick={handleContactAgent}>Contact Agent</Button>
+            <Button disabled={isSubmitting} onClick={handleContactAgent}>
+              {isSubmitting ? "Submitting..." : "Contact Agent"}
+            </Button>
           </div>
         </>
       ) : (

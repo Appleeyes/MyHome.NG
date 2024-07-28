@@ -15,6 +15,7 @@ const Chat = () => {
   const [product, setProduct] = useState(null);
   const [agent, setAgent] = useState(null);
   const [tenant, setTenant] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fetchChatDetails = useCallback(async () => {
     const token = localStorage.getItem("token");
@@ -65,6 +66,8 @@ const Chat = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     try {
       const response = await axios.post(
         `https://myhome-ng-backend.onrender.com/api/v1/chats/${chatId}/messages`,
@@ -83,6 +86,8 @@ const Chat = () => {
       } else {
         console.error("An unexpected error occurred");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -189,8 +194,11 @@ const Chat = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type your message..."
+          disabled={isSubmitting}
         />
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage} disabled={isSubmitting}>
+          {isSubmitting ? "Sending..." : "Send"}
+        </button>
       </div>
     </div>
   );

@@ -103,7 +103,7 @@ function Settings() {
         <div className="profile-pic">
           <label htmlFor="imageUpload" className="image-upload-label">
             <img src={userDetails.image} alt="Profile Woman" />
-            <img className="edit-image" src={EditImage} alt="edit image" />
+            <img className="edit-image" src={EditImage} alt="edit imge" />
           </label>
           <p>{userDetails.name}</p>
           <input

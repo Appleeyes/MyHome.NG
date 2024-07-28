@@ -24,7 +24,7 @@
     justify-content: space-between;
 }
 
-.modal-content button{
+.modal-content .close{
     position: absolute;
     background-color: #0165FC;
     padding: 0px 5px;

@@ -67,6 +67,11 @@
     letter-spacing: 0.0162em;
 }
 
+.buttons button.link:disabled {
+    background-color: #b2bec3;
+    cursor: not-allowed;
+}
+
 .modal-cont {
     margin: 80px 0 30px;
 }

@@ -26,9 +26,7 @@ function Footer({ currentRoute }) {
       case "/landlord/search":
         return currentRoute === route ? SearchActive : SearchIcon;
       case "/settings":
-      case "/settings":
         return currentRoute === route ? SettingActive : SettingIcon;
-      case "/profile":
       case "/profile":
         return currentRoute === route ? ProfileActive : ProfileIcon;
       default:

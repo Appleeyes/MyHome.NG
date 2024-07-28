@@ -54,7 +54,7 @@ function App() {
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/product/management" component={ProductManagement} />
         <Route path="/user/management" component={TenantManagement} />
-        <Route path="/user/profile" component={Profile} />
+        <Route path="/profile" component={Profile} />
         <Route path="/user/home" component={UserHome} />
         <Route path="/verify-email" component={EmailVerify} />
         <Route path="/account-success" component={AccountSuccess} />

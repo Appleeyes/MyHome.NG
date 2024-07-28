@@ -3,7 +3,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import "../../assets/css/UserHomepage.css";
-import ProfileWoman from "../../assets/images/profile-woman.png";
 import BellIcon from "../../assets/images/bell.svg";
 import Home from "../../assets/images/home.svg";
 import Loan from "../../assets/images/loan.svg";
@@ -23,6 +22,7 @@ axiosRetry(axios, {
 function Homepage() {
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getRecommendedProduct = async () => {
@@ -54,7 +54,37 @@ function Homepage() {
     }
   };
 
+  const getUserDetails = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Authentication token not found");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        "https://myhome-ng-backend.onrender.com/api/v1/user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUserDetails(response.data.data);
+    } catch (err) {
+      if (err.response) {
+        console.error(err.response.data.message);
+      } else {
+        console.error("An unexpected error occured");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    getUserDetails()
     getRecommendedProduct();
   }, []);
 
@@ -128,10 +158,10 @@ function Homepage() {
     <div className="user-homepage">
       <div className="user-head">
         <div className="user-info">
-          <a href="/user/profile">
-            <img src={ProfileWoman} alt="Profile Woman" />
+          <a href="/profile">
+            <img src={userDetails.image} alt="Profile Woman" />
           </a>
-          <h3>Hello Fade,</h3>
+          <h3>Hello {userDetails.name},</h3>
         </div>
         <a href="/notification">
           <img src={BellIcon} alt="Bell Icon" />

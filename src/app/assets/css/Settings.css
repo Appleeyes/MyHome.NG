@@ -17,17 +17,32 @@
 }
 
 .images {
-    width: 98%;
+    width: 100%;
 }
 
 .images .house {
     width: 100%;
+    height: 280px;
 }
 
 .images .profile-pic {
     position: absolute;
     top: 65%;
     left: 30%;
+}
+
+.images .profile-pic img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.images .profile-pic img.edit-image{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 75%;
 }
 
 .images .profile-pic p {

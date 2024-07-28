@@ -1,110 +1,208 @@
-import React from 'react';
-import '../assets/css/Settings.css';
-import ArrowBack from '../components/ArrowBackComponent';
-import ProfileHouse from '../assets/images/setting-house.png';
-import ProfileWoman from '../assets/images/setting-woman.png';
-import Notification from '../assets/images/notification.svg';
-import Offer from '../assets/images/offer.svg';
-import Agreement from '../assets/images/agreement.svg';
-import Payment from '../assets/images/pay.svg';
-import Terms from '../assets/images/terms.svg';
-import Privacy from '../assets/images/privacy.svg';
-import Help from '../assets/images/chat-help.svg';
-import Logout from '../assets/images/logout.svg';
-import ArrowRight from '../assets/images/arrow-right.svg';
-import Footer from '../components/Footer';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../assets/css/Settings.css";
+import ArrowBack from "../components/ArrowBackComponent";
+import Notification from "../assets/images/notification.svg";
+import Offer from "../assets/images/offer.svg";
+import Agreement from "../assets/images/agreement.svg";
+import Payment from "../assets/images/pay.svg";
+import Terms from "../assets/images/terms.svg";
+import Privacy from "../assets/images/privacy.svg";
+import Help from "../assets/images/chat-help.svg";
+import Logout from "../assets/images/logout.svg";
+import EditImage from "../assets/images/edit-image.svg";
+import ArrowRight from "../assets/images/arrow-right.svg";
+import Footer from "../components/Footer";
 
 function Settings() {
-    return (
-        <div className='settings'>
-            <div className="head">
-                <ArrowBack />
-                <p>Settings</p>
-            </div>
-            <div className='images'>
-                <img className='house' src={ProfileHouse} alt="Profile House" />
-                <div className='profile-pic'>
-                    <img src={ProfileWoman} alt="ProfileWoman" />
-                    <p>Fade James</p>
-                </div>
-            </div>
-            <div className="options">
-                <div className="action-item">
-                    <div>
-                        <img src={Notification} alt="Notification Icon" />
-                        <p>Notification</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-                <div className="action-item">
-                    <div>
-                        <img src={Offer} alt="Offer Icon" />
-                        <p>Offer</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-                <div className="action-item">
-                    <div>
-                        <img src={Agreement} alt="Agreement" />
-                        <p>Agreement</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-                <div className="action-item">
-                    <div>
-                        <img src={Payment} alt="Payment Icon" />
-                        <p>Payment</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-                <div className="action-item">
-                    <div>
-                        <img src={Terms} alt="Terms Icon" />
-                        <p>Terms and Condition</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-                <div className="action-item">
-                    <div>
-                        <img src={Privacy} alt="Privacy Icon" />
-                        <p>Privacy Policy</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-                <div className="action-item">
-                    <div>
-                        <img src={Help} alt="Help Icon" />
-                        <p>Help and Support</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-                <div className="action-item">
-                    <div>
-                        <img src={Logout} alt="Logout Icon" />
-                        <p>Logout</p>
-                    </div>
-                    <a href="/#">
-                        <img src={ArrowRight} alt="Arrow Right Icon" />
-                    </a>
-                </div>
-            </div>
-            <Footer currentRoute={window.location.pathname} />
+  const [loading, setLoading] = useState(false);
+  const [userDetails, setUserDetails] = useState([]);
+
+  const getUserDetails = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Authentication token not found");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        "https://myhome-ng-backend.onrender.com/api/v1/user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUserDetails(response.data.data);
+    } catch (err) {
+      if (err.response) {
+        console.error(err.response.data.message);
+      } else {
+        console.error("An unexpected error occured");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
+  const handleLogout = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Authentication token not found");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await axios.post(
+        "https://myhome-ng-backend.onrender.com/api/v1/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("token");
+      localStorage.removeItem("userRole");
+      window.location.href = "/login";
+    } catch (err) {
+      console.error("Logout failed:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUserDetails({ ...userDetails, image: e.target.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  return (
+    <div className="settings">
+      <div className="head">
+        <ArrowBack />
+        <p>Settings</p>
+      </div>
+      <div className="images">
+        <img className="house" src={userDetails.image} alt="Profile House" />
+        <div className="profile-pic">
+          <label htmlFor="imageUpload" className="image-upload-label">
+            <img src={userDetails.image} alt="Profile Woman" />
+            <img className="edit-image" src={EditImage} alt="edit imge" />
+          </label>
+          <p>{userDetails.name}</p>
+          <input
+            type="file"
+            id="imageUpload"
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </div>
-    )
+      </div>
+      <div className="options">
+        <div className="action-item">
+          <div>
+            <img src={Notification} alt="Notification Icon" />
+            <p>Notification</p>
+          </div>
+          <a href="/#">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+        </div>
+        <div className="action-item">
+          <div>
+            <img src={Offer} alt="Offer Icon" />
+            <p>Offer</p>
+          </div>
+          <a href="/#">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+        </div>
+        <div className="action-item">
+          <div>
+            <img src={Agreement} alt="Agreement" />
+            <p>Agreement</p>
+          </div>
+          <a href="/#">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+        </div>
+        <div className="action-item">
+          <div>
+            <img src={Payment} alt="Payment Icon" />
+            <p>Payment</p>
+          </div>
+          <a href="/#">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+        </div>
+        <div className="action-item">
+          <div>
+            <img src={Terms} alt="Terms Icon" />
+            <p>Terms and Condition</p>
+          </div>
+          <a href="/#">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+        </div>
+        <div className="action-item">
+          <div>
+            <img src={Privacy} alt="Privacy Icon" />
+            <p>Privacy Policy</p>
+          </div>
+          <a href="/#">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+        </div>
+        <div className="action-item">
+          <div>
+            <img src={Help} alt="Help Icon" />
+            <p>Help and Support</p>
+          </div>
+          <a href="/#">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+        </div>
+        <div
+          className="action-item"
+          onClick={handleLogout}
+          style={{ cursor: loading ? "not-allowed" : "pointer" }}
+        >
+          <div>
+            <img src={Logout} alt="Logout Icon" />
+            <p>{loading ? "Logging out..." : "Logout"}</p>
+          </div>
+          {loading ? (
+            <div
+              className="spinner"
+              style={{ width: "20px", height: "20px" }}
+            ></div>
+          ) : (
+            <a href="/#">
+              <img src={ArrowRight} alt="Arrow Right Icon" />
+            </a>
+          )}
+        </div>
+      </div>
+      <Footer currentRoute={window.location.pathname} />
+    </div>
+  );
 }
 
 export default Settings;

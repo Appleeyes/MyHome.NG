@@ -26,10 +26,8 @@ function Footer({ currentRoute }) {
       case "/landlord/search":
         return currentRoute === route ? SearchActive : SearchIcon;
       case "/settings":
-      case "/landlord/settings":
         return currentRoute === route ? SettingActive : SettingIcon;
-      case "/user/profile":
-      case "/landlord/profile":
+      case "/profile":
         return currentRoute === route ? ProfileActive : ProfileIcon;
       default:
         return SettingIcon;
@@ -42,8 +40,8 @@ function Footer({ currentRoute }) {
         home: "/landlord/home",
         bookmarked: "/landlord/properties",
         search: "/landlord/search",
-        settings: "/landlord/settings",
-        profile: "/landlord/profile",
+        settings: "/settings",
+        profile: "/profile",
       };
     }
     return {
@@ -51,7 +49,7 @@ function Footer({ currentRoute }) {
       bookmarked: "/product/bookmarked",
       search: "/search",
       settings: "/settings",
-      profile: "/user/profile",
+      profile: "/profile",
     };
   };
 

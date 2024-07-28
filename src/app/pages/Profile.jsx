@@ -76,44 +76,34 @@ function Profile() {
           </div>
         </div>
         <div className="additional-content">
-          <div className="activity">
+          <a href="/#" className="activity">
             <img src={UserAct} alt="User Activity Icon" />
             <div className="">
               <h5>My Activity</h5>
               <div className="activity-down">
                 <p>View your recent property searches and activities</p>
-                <a href="/user/profile/#">
-                  <img src={ArrowRight} alt="Arrow Right Icon" />
-                </a>
+                <img src={ArrowRight} alt="Arrow Right Icon" />
               </div>
             </div>
-          </div>
+          </a>
         </div>
         <div className="actions-container">
-          <div className="action-item">
+          <a href="/#" className="action-item">
             <p>Complete Your Profile</p>
-            <a href="/#">
-              <img src={ArrowRight} alt="Arrow Right Icon" />
-            </a>
-          </div>
-          <div className="action-item">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+          <a href="/#" className="action-item">
             <p>Check Your Eligibility Status</p>
-            <a href="/#">
-              <img src={ArrowRight} alt="Arrow Right Icon" />
-            </a>
-          </div>
-          <div className="action-item">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+          <a href="/#" className="action-item">
             <p>Upload Document</p>
-            <a href="/#">
-              <img src={ArrowRight} alt="Arrow Right Icon" />
-            </a>
-          </div>
-          <div className="action-item">
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
+          <a href="/#" className="action-item">
             <p>Verification</p>
-            <a href="/#">
-              <img src={ArrowRight} alt="Arrow Right Icon" />
-            </a>
-          </div>
+            <img src={ArrowRight} alt="Arrow Right Icon" />
+          </a>
         </div>
         <Footer currentRoute={window.location.pathname} />
       </div>

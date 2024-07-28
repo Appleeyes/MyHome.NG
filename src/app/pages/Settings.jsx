@@ -116,69 +116,55 @@ function Settings() {
         </div>
       </div>
       <div className="options">
-        <div className="action-item">
+        <a href="/notification" className="action-item">
           <div>
             <img src={Notification} alt="Notification Icon" />
             <p>Notification</p>
           </div>
-          <a href="/#">
-            <img src={ArrowRight} alt="Arrow Right Icon" />
-          </a>
-        </div>
-        <div className="action-item">
+          <img src={ArrowRight} alt="Arrow Right Icon" />
+        </a>
+        <a href="/chats" className="action-item">
           <div>
             <img src={Offer} alt="Offer Icon" />
             <p>Offer</p>
           </div>
-          <a href="/#">
-            <img src={ArrowRight} alt="Arrow Right Icon" />
-          </a>
-        </div>
-        <div className="action-item">
+          <img src={ArrowRight} alt="Arrow Right Icon" />
+        </a>
+        <a href="/agreement" className="action-item">
           <div>
             <img src={Agreement} alt="Agreement" />
             <p>Agreement</p>
           </div>
-          <a href="/#">
-            <img src={ArrowRight} alt="Arrow Right Icon" />
-          </a>
-        </div>
-        <div className="action-item">
+          <img src={ArrowRight} alt="Arrow Right Icon" />
+        </a>
+        <a href="/#" className="action-item">
           <div>
             <img src={Payment} alt="Payment Icon" />
             <p>Payment</p>
           </div>
-          <a href="/#">
-            <img src={ArrowRight} alt="Arrow Right Icon" />
-          </a>
-        </div>
-        <div className="action-item">
+          <img src={ArrowRight} alt="Arrow Right Icon" />
+        </a>
+        <a href="/terms-and-condition" className="action-item">
           <div>
             <img src={Terms} alt="Terms Icon" />
             <p>Terms and Condition</p>
           </div>
-          <a href="/#">
-            <img src={ArrowRight} alt="Arrow Right Icon" />
-          </a>
-        </div>
-        <div className="action-item">
+          <img src={ArrowRight} alt="Arrow Right Icon" />
+        </a>
+        <a href="/privacy-policy" className="action-item">
           <div>
             <img src={Privacy} alt="Privacy Icon" />
             <p>Privacy Policy</p>
           </div>
-          <a href="/#">
-            <img src={ArrowRight} alt="Arrow Right Icon" />
-          </a>
-        </div>
-        <div className="action-item">
+          <img src={ArrowRight} alt="Arrow Right Icon" />
+        </a>
+        <a href="/#" className="action-item">
           <div>
             <img src={Help} alt="Help Icon" />
             <p>Help and Support</p>
           </div>
-          <a href="/#">
-            <img src={ArrowRight} alt="Arrow Right Icon" />
-          </a>
-        </div>
+          <img src={ArrowRight} alt="Arrow Right Icon" />
+        </a>
         <div
           className="action-item"
           onClick={handleLogout}
@@ -194,9 +180,7 @@ function Settings() {
               style={{ width: "20px", height: "20px" }}
             ></div>
           ) : (
-            <a href="/#">
-              <img src={ArrowRight} alt="Arrow Right Icon" />
-            </a>
+            <img src={ArrowRight} alt="Arrow Right Icon" />
           )}
         </div>
       </div>

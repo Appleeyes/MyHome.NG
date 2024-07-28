@@ -61,7 +61,7 @@ function Login() {
         forgotPasswordLink="/login"
         forgotPasswordText="Forget Password"
         additionalTagText="Don’t have an account? "
-        additionalTagLink="/signup"
+        additionalTagLink="/signup-role"
         additionalTagLinkText="Create Account"
         onSubmit={handleLogin}
       />

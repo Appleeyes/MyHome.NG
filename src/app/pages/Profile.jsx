@@ -1,44 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../assets/css/Profile.css";
 import UserAct from "../assets/images/user-activity.svg";
-import ProfileWoman from "../assets/images/profile-woman.png";
 import ArrowBack from "../components/ArrowBackComponent";
 import ArrowRight from "../assets/images/arrow-right.svg";
 import Footer from "../components/Footer";
 
 function Profile() {
-  const [loading, setLoading] = useState(false);
+  const [userDetails, setUserDetails] = useState([]);
 
-  const handleLogout = async () => {
-    setLoading(true);
+  const getUserDetails = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
       console.error("Authentication token not found");
-      setLoading(false);
       return;
     }
 
     try {
-      await axios.post(
-        "https://myhome-ng-backend.onrender.com/api/v1/logout",
-        {},
+      const response = await axios.get(
+        "https://myhome-ng-backend.onrender.com/api/v1/user",
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      localStorage.removeItem("token");
-      localStorage.removeItem("userRole");
-      window.location.href = "/login";
+      setUserDetails(response.data.data);
     } catch (err) {
-      console.error("Logout failed:", err);
-    } finally {
-      setLoading(false);
+      if (err.response) {
+        console.error(err.response.data.message);
+      } else {
+        console.error("An unexpected error occured");
+      }
     }
   };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
 
   return (
     <div className="user-profile">
@@ -49,21 +49,21 @@ function Profile() {
         </div>
         <div className="profile">
           <div className="profile-info">
-            <img src={ProfileWoman} alt="Profile Woman" />
+            <img src={userDetails.image} alt="Profile" />
           </div>
           <div className="profile-view">
             <h3>Personal Info</h3>
             <div className="display-view">
               <h5>Full Name</h5>
-              <p>Fade James</p>
+              <p>{userDetails.name}</p>
             </div>
             <div className="display-view">
               <h5>Phone Number</h5>
-              <p>090 XXX XXX XX</p>
+              <p>{userDetails.phone_number}</p>
             </div>
             <div className="display-view">
               <h5>Email Address</h5>
-              <p>fadejames@gmail.com</p>
+              <p>{userDetails.email}</p>
             </div>
             <div className="display-view">
               <h5>Change Password</h5>
@@ -113,23 +113,6 @@ function Profile() {
             <a href="/#">
               <img src={ArrowRight} alt="Arrow Right Icon" />
             </a>
-          </div>
-          <div
-            className="action-item"
-            onClick={handleLogout}
-            style={{ cursor: loading ? "not-allowed" : "pointer" }}
-          >
-            <p>{loading ? "Logging out..." : "Logout"}</p>
-            {loading ? (
-              <div
-                className="spinner"
-                style={{ width: "20px", height: "20px" }}
-              ></div>
-            ) : (
-              <a href="/#">
-                <img src={ArrowRight} alt="Arrow Right Icon" />
-              </a>
-            )}
           </div>
         </div>
         <Footer currentRoute={window.location.pathname} />

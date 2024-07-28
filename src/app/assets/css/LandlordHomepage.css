@@ -6,12 +6,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 30px;
 }
 
 .landlord-head .landlord-info {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
 }
 
 .landlord-head h3 {
@@ -29,6 +29,9 @@
 
 .landlord-head .landlord-info img {
     background-color: transparent;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
 }
 
 .main-actions {

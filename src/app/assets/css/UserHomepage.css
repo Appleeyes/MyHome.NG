@@ -6,12 +6,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 30px;
 }
 
 .user-head .user-info {
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
 }
 
 .user-head h3 {
@@ -29,6 +29,9 @@
 
 .user-head .user-info img {
     background-color: transparent;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
 }
 
 .user-homepage .property-type {

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import '../../assets/css/LandlordHomepage.css';
-import ProfileWoman from '../../assets/images/profile-woman.png';
 import BellIcon from '../../assets/images/bell.svg';
 import ChatIcon from "../../assets/images/chat-icon.svg";
 import Receipt from '../../assets/images/reciept.svg';
@@ -11,14 +11,47 @@ import SearchComponent from '../../components/SearchComponent';
 import Footer from '../../components/Footer';
 
 function Homepage() {
+  const [userDetails, setUserDetails] = useState([]);
+
+  const getUserDetails = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Authentication token not found");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        "https://myhome-ng-backend.onrender.com/api/v1/user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUserDetails(response.data.data);
+    } catch (err) {
+      if (err.response) {
+        console.error(err.response.data.message);
+      } else {
+        console.error("An unexpected error occured");
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
     return (
       <div className="landlord-homepage">
         <div className="landlord-head">
           <div className="landlord-info">
-            <a href="/landlord/profile">
-              <img src={ProfileWoman} alt="Profile Imge" />
+            <a href="/profile">
+              <img src={userDetails.image} alt="Profile Imge" />
             </a>
-            <h3>Hello Fade,</h3>
+            <h3>Hello {userDetails.name},</h3>
           </div>
           <a href="/notification">
             <img src={BellIcon} alt="Bell Icon" />

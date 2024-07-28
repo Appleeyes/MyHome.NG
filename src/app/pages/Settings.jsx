@@ -10,6 +10,7 @@ import Terms from "../assets/images/terms.svg";
 import Privacy from "../assets/images/privacy.svg";
 import Help from "../assets/images/chat-help.svg";
 import Logout from "../assets/images/logout.svg";
+import EditImage from "../assets/images/edit-image.svg";
 import ArrowRight from "../assets/images/arrow-right.svg";
 import Footer from "../components/Footer";
 
@@ -79,6 +80,18 @@ function Settings() {
       setLoading(false);
     }
   };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUserDetails({ ...userDetails, image: e.target.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
   return (
     <div className="settings">
       <div className="head">
@@ -88,8 +101,18 @@ function Settings() {
       <div className="images">
         <img className="house" src={userDetails.image} alt="Profile House" />
         <div className="profile-pic">
-          <img src={userDetails.image} alt="ProfileWoman" />
+          <label htmlFor="imageUpload" className="image-upload-label">
+            <img src={userDetails.image} alt="Profile Woman" />
+            <img className="edit-image" src={EditImage} alt="edit image" />
+          </label>
           <p>{userDetails.name}</p>
+          <input
+            type="file"
+            id="imageUpload"
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={handleImageChange}
+          />
         </div>
       </div>
       <div className="options">
